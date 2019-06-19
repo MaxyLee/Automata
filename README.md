@@ -1,4 +1,5 @@
 # Automata
-This is a note of formal language and automata in order for the final.\
-This note is not yet complete. Supplement and modification is encouraged.\
-Please give clear indication of the location of the change when committing.
+This is a study note of ***Formal Language and Automata***.\
+This note is still yet to complete. Commitments are is encouraged.\
+Please provide clear indication each time you make commitments.\
+Thank you
