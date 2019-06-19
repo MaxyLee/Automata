@@ -1,5 +1,47 @@
 # Automata Review
 
+## Ch.2 FA
+
+### 2.1 DFA
+
+### 2.2 NFA
+
+### 2.3 DFA与NFA的等价性
+
+### 2.4 $\varepsilon-$NFA
+
+### 2.5 DFA的最小化
+
+#### 2.5.1 从DFA构造NFA
+
+- 设$L$是某个DFA $D=(Q,\Sigma,\delta_{D},q_{0},F)$的语言,则存在一个NFA $N$,满足$L(N)=L(D)=L$
+
+- **证明**
+
+  定义$N=(Q,\Sigma,\delta_{N},q_{0},F)$，其中$\delta_{N}$定义为
+  
+  - 对$q\in Q$和$a\in \Sigma$，若$\delta_{D}(q,a)=p$，则$\delta_{N}(q,a)=\{p\}$
+  
+  需要证明：对于任何$w\in\Sigma^{*}$，$\delta_{D}^{'}=p \Leftrightarrow \delta_{N}^{'}=\{p\}$
+  
+  归纳于$|w|$易证上述命题
+
+#### 2.5.2 从NFA构造DFA(子集构造法)
+
+- 设$L$是某个NFA $N=(Q,\Sigma,\delta_{N},q_{0},F_{N})$的语言,则存在一个DFA $D$,满足$L(D)=L(N)=L$
+
+- **证明**
+
+  定义$D=(Q,\Sigma,\delta_{D},q_{0},F_{D})$，其中$\delta_{D}$定义为
+
+  - $Q_{D}=\{S|S \subseteq Q_{N}\}$
+  - 对$S\in Q_{D}$和$a\in\Sigma$，$\delta_{D}(S,a)=\bigcup_{q\in S}\delta_{N}(q,a)$
+  - $F_{D}=\{S|S\subseteq Q_{N}\land S\cap F_{N}\ne\phi\}$
+
+  需要证明：对于任何$w\in\Sigma^{*}$，$\delta_{D}^{'}(\{q_{0}\},w)= \delta_{N}^{'}(q_{0},w)$
+
+  归纳于$|w|$可证上述命题
+
 ## Ch.3 Regular Expression and Regular Language
 ### 3.1 正规语言
 
