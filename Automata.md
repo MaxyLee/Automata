@@ -71,9 +71,43 @@
 
 ### 3.4 例题
 
+**题海无涯 欢迎补充**
+
 1. $\{xwx^{R}|x,w\in (a+b)^{+}\}$
 
-   
+   这题好像有点问题
+
+2. $\{ w|w\in \{a,b\}^{*}\land \exists x,y(x,y\in \{a,b\}^{*} \land w=xy\land \left|y\right|=3\land y=y^{R})\}$
+
+   $(a+b)^{*}(aaa+aba+bbb+bab)$
+
+3. $\{ w\in\{a,b\}^{*}|w中既不包含子串aa，也不包含子串bb\}$
+
+   $(b+\varepsilon)(ab)^{*}(a+\varepsilon)$
+
+4. $\{ a^{n}b^{m}|n,m\ge0 \land n+m为偶数\}$
+
+   $(aa)^{*}(ab+\varepsilon)(bb)^{*}$
+
+5. $\{ w|w\in \{a,b\}^{*},\left|w\right|\ge1,且w的后20位至少有一个a\}$
+
+   　$(a+b)^{*}a(b+\varepsilon)^{19}$
+
+6. $\{ w|w\in \{a,b\}^{*},\left|w\right|\ge1,且当w以a为结尾时，它的长度为奇数\}$
+
+   $((a+b)^{2})^{*}a+(a+b)^{*}b$
+
+7. $\{ w|w\in \{a,b\}^{*},\left|w\right|\ge2,且w的前5位至少有一个子串aa\}$
+
+   $(a+b+\varepsilon)^{3}aa(a+b)^{*}$
+
+8. $\{ w|w\in \{a,b\}^{*},\left|w\right|\ge1,且w的第2位至第5位至少有一个a\}$
+
+   $(a+b)(b+\varepsilon)^{3}a(a+b)^{*}$ 
+
+9. $\{ w|w\in \{0,1\}^{*},w 至少含有3个1，且倒数第3位为1\}$
+
+   $(0+1)^{*}111+(0+1^{*})1(0+1^{*})1(01+10)+(0+1^{*})1(0+1^{*})1(0+1^{*})100$
 
 
 ## Ch.4 Regular Language的应用
@@ -97,7 +131,7 @@
 
 - $\boldsymbol{R}_{i j}^{1}=\boldsymbol{R}_{i j}^{0}+\boldsymbol{R}_{i 1}^{0}（\boldsymbol{R}_{1 1}^{0}）^{*}\boldsymbol{R}_{1 j}^{0}$
 - $\boldsymbol{R}_{i j}^{2}=\boldsymbol{R}_{i j}^{1}+\boldsymbol{R}_{i 2}^{1}（\boldsymbol{R}_{2 2}^{1}）^{*}\boldsymbol{R}_{2 j}^{1}$
-- 想理解更过内容，请观看https://www.youtube.com/watch?v=88aU7f4_g4o&t=296s 。
+- 想理解更多内容，请观看https://www.youtube.com/watch?v=88aU7f4_g4o&t=296s 。
 
 ### 4.6 状态消去法
 
@@ -415,6 +449,10 @@ $$
 3. 两个CFL的交是否为空？
 4. 两个CFL是否相等？
 5. 给定CFL是否等于$\Sigma^{*}$?
+
+#### 7.4.5 判定CFG是否为正则语言
+
+https://blog.csdn.net/ycheng_sjtu/article/details/26104869
 
 ## Ch.8 Turing Machine
 
