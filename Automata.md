@@ -8,11 +8,7 @@
 
 ### 2.3 DFA与NFA的等价性
 
-### 2.4 $\varepsilon-$NFA
-
-### 2.5 DFA的最小化
-
-#### 2.5.1 从DFA构造NFA
+#### 2.3.1 从DFA构造NFA
 
 - 设$L$是某个DFA $D=(Q,\Sigma,\delta_{D},q_{0},F)$的语言,则存在一个NFA $N$,满足$L(N)=L(D)=L$
 
@@ -26,7 +22,7 @@
   
   归纳于$|w|$易证上述命题
 
-#### 2.5.2 从NFA构造DFA(子集构造法)
+#### 2.3.2 从NFA构造DFA(子集构造法)
 
 - 设$L$是某个NFA $N=(Q,\Sigma,\delta_{N},q_{0},F_{N})$的语言,则存在一个DFA $D$,满足$L(D)=L(N)=L$
 
@@ -41,6 +37,11 @@
   需要证明：对于任何$w\in\Sigma^{*}$，$\delta_{D}^{'}(\{q_{0}\},w)= \delta_{N}^{'}(q_{0},w)$
 
   归纳于$|w|$可证上述命题
+
+### 2.4 $\varepsilon-$NFA
+
+### 2.5 DFA的最小化
+
 
 ## Ch.3 Regular Expression and Regular Language
 ### 3.1 正规语言
