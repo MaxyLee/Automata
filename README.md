@@ -1,5 +1,5 @@
 # Automata
-This is a study note of ***Formal Language and Automata***.\
-It is still yet to complete. Commitments are is encouraged.\
-Please provide clear indication when commited.\
+This is a study guide for ***Formal Language and Automata.***\
+It is currently unfinished. Commitments are is welcome.\
+Please provide clear indication when commiting.\
 Thank you
