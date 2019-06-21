@@ -21,13 +21,11 @@
 	结构归纳法
 	互归纳证明
 	常见的归纳依据
-		推导步数（当前件与一个多步的推导相关）
+		推导步数（当前件与一个多步的推导，或者在一台自动机中转移的步数相关）
 		树的规模（树高、树的节点数等）（当前件涉及到一个树的结构）
 		串的长度（当前件与一个字符串的集合相关）
 
 ## Ch.2 FA
-
-### 2.1 DFA
 
 FA $A=(Q,\Sigma,\delta,q_0,F)​$
 
@@ -39,6 +37,8 @@ FA $A=(Q,\Sigma,\delta,q_0,F)​$
   - 对ε-NFA，\Sigma需要并上一个{ε}
 - q_0: 一个开始状态
 - F: 一个终态集合
+
+### 2.1 DFA
 
 ### 2.2 NFA
 
@@ -325,7 +325,6 @@ FA $A=(Q,\Sigma,\delta,q_0,F)​$
 - 左结合（解析算式）
 - 最近嵌套匹配（计算）
 
-
 ### CFL
 **题型** 证明L是某个文法的语言（需要分别证明充分性和必要性）
 
@@ -371,10 +370,43 @@ FA $A=(Q,\Sigma,\delta,q_0,F)​$
 
 ### 6.2 PDA的语言
 
-- 终态接受
-- 空栈接受
+- 终态接受 记号：L(P)
+- 空栈接受 记号：N(P)
+  - 	空栈接受的PDA能接受的语言集合和终态接受的PDA是一致的
+  - 	对于被一个PDA空栈/终态接受的语言，必存在一个PDA终态/空栈接受该语言
 - 从空栈接受到终态接受
+  - 	基本思想：首先，在原PDA的开始状态S前再接一个新的开始状态S0，从S0到S添加一个ε转移，这个转移发挥了在原PDA中栈的初始符号下面再垫了一个新PDA的初始符号Z0的作用；其次，从原PDA的每个状态都拉一条新的ε转移线出来，指到我们为新PDA创建的一个唯一终态，而这些ε转移都需要把Z0弹出来，这就保证了如果一个输入串要走到新PDA的唯一终态，我一定要把栈中Z0上面的东西弹干净，换言之这个输入串对原PDA必然是可以空栈接受的。
 - 从终态接受到空栈接受
+  - 	基本思想：这个很直观，从每个终态都拉一条ε转移线指到一个为新PDA创建的垃圾回收站状态，这个垃圾回收站负责用ε转移把栈清干净。当然为了保证在原PDA的其他非终态不会意外出现空栈的情况，还要像上面那样搞一个新的初态，垫一个初始符号作为保险。
+
+### PPT自测题简析
+需要始终记住的是，因为CFG转PDA很暴力也很简单，构造的烦了就做个CFG然后转PDA就好。
+- L：任何前缀中a的数目至少两倍于b的数目
+
+  -		 想象栈是个钱包，读一个a收入1块钱，读一个b损失2块钱，只要保证始终不亏，接受的就是L。
+- L：a的数目不等于b的数目
+
+  -		 很容易想到制造a,b数目相等的串的方法：比如读入一个a的时候，栈顶如果是Z或者A就压入A，如果是B就弹出B；读入b的时候就把A,B地位互换，然后在栈顶是Z的时候接受就好了。所以不相等也很容易：接受栈顶不是Z的情况就好了。具体来说，用一个状态不断接受a,b并在栈里面统计，然后拉两条ε转移线到一个唯一终态，这两条转移分别要求栈顶是A和B，这样就保证接受的时候a,b数量不相等。
+- L：a和b的个数相同且不含连续的c
+
+  -		思路同上，先搞一个状态并结合栈判断a，b个数一不一样，然后魔改：如果读入一个c，就转移到一个新状态上，从这个状态必须读入a或者b（记得相应更新栈内容）才能回到原来的状态继续工作。PDA用空栈接受。
+- L：a^n b^m c^k, n+2m=k，n,m,k非负
+
+  -		既然a,b,c相对位置固定，那就依次用栈统计好就行。稍微绕一点的是比如这种情况：
+- L：0的数目是1的数目的2倍
+  -		我设想的解决方案是把栈当作计数器（可以计负数），栈里只有都是X、空、都是Y三种情况（暂且不管栈底的Z），X的数量表示栈里存着与之相等的正数，Y的数量表示栈里存着绝对值与之相等的负数。然后对于本题，读0相当于+1，读1相当于-2，每次需要加减一个数的时候，需要进入到一组单独的用于在栈中计算的状态，必须把这个加减过程算完了再回到主状态。比方说：
+  $$
+  \begin{align}
+  \delta(p,0,任意符号) &= (q_{0in},不改变栈顶)\\
+  \delta(q_{0out},\epsilon,任意符号) &= (p,不改变栈顶)\\
+  \delta(p,1,任意符号) &= (q_1,不改变栈顶)\\
+  \delta(q_{1out},\epsilon,任意符号) &= (p,不改变栈顶)\\
+  \delta(p,\epsilon,Z_0) &= d(q_{final},不改变栈顶)\\
+  \end{align}
+  $$
+  然后从每个q_in到q_out都需要在栈里面把数计好。这个可能是比较通用的解决方案。如果需要设计一个例如
+- L：#a + 2(#b) = #c
+之类的东西应该也不会很困难吧。
 
 ### 6.3 PDA和CFG的等价性
 
@@ -440,6 +472,7 @@ FA $A=(Q,\Sigma,\delta,q_0,F)​$
   2. 一个语言$L$是某个 DPDA $P$的语言,即$L=L(P)$, 则$L$存在一个无二义文法
   3. 固有二义的语言不是任何DPDA的语言
   4. 存在非固有二义的语言$L$，不是任何DPDA $P$ 的语言
+
 
 ### 6.5 例题
 
@@ -607,6 +640,44 @@ $$
 #### 7.4.5 判定CFG是否为正则语言
 
 https://blog.csdn.net/ycheng_sjtu/article/details/26104869
+
+### 关于本章的若干有趣性质补充（并非课内，选看）
+不记得课内有没有提过了，DCFL对补运算是封闭的，DCFL求补还是DCFL
+证明过程可以参考[这里](http://www.doc88.com/p-7146282880172.html)的39页到48页
+大致思路：取终态接受DPDA研究（注意空栈接受DPDA和前缀性质的联系），容易想到证明RE对补运算封闭时对DPA的终态/非终态取反的情况，但是还要解决1. 原DPDA可能会读不完一个串；2. DPDA允许ε转移，这两个问题。对于第一个问题，可以先把原DPDA改造成一个等价但是能读完所有串的DPDA来解决；对于第二个问题，原文应用了给状态添加分量的思想（不妨回忆串行密码锁实验，多道图灵机和一些证明运算封闭性的题目，譬如习题4.2.8(half运算)的解答），对读入一个串后原DPDA进入的状态情况进行了分类，并作为状态的一个分量。详细构造请参阅原文。
+
+习题7.1.11(Greibach Normal Form)
+
+相信大家已经熟练掌握了CNF的转化方法，不妨做一做7.1.11+7.1.12套餐来熟悉一下格雷巴赫范式吧
+
+习题7.2.3 (Ogden's lemma)
+对于一个CFL，可以找到常数n，使得任何长度大于n的串z中，可以选择至少n个标记，使得z可以写作uvwxy，让vwx包含至多n个标记，但vx包含至少1个标记，并且v和x可以作为泵。（显著位置是什么鬼畜翻译）
+
+特别地，对所有字符作标记，就退化为普通的CFL泵引理。
+
+习题7.2.4和7.2.5即是关于Ogden引理的练习题，例如7.2.4即是证明L={ww}这一典例不是CFL。
+
+DPDA是有泵引理的。关于判断一个语言是否是DCFL，可以参考以下例题：
+- 习题6.4.4
+- 典例：证明$L=\{ww^R|w \in \Sigma^*\}$不是一个DCFL。（PPT上这里的证明被略过了）
+
+下面给出DPDA的泵引理。简单来说，就是对任两个有公共前缀的串，可以把它们分别拆解成uvwxy的结构，而且保证v是被包含在前缀中的一个泵。应该还有一些细节，但我还没整清楚，有兴趣的同学可以研究：
+
+[A pumping lemma for deterministic context-free languages](https://www.sciencedirect.com/science/article/pii/0020019089901087?via%3Dihub)
+(Pumping Lemma) Let L be a DCFL. Then there exists a constant C for L such that for any pair of words w,w'\in if
+
+(1) w=xy [?] and w'=xz, |x|>C and
+
+(2) {}^{(1)}y = {}^{(1)}z, [?]
+
+then either (3) or (4) is true:
+
+(3) there is a factorization $x=x_1x_2x_3x_4x_5, |x_2x_4|\ge 1$ and $|x_2x_3x_4|\le C$, such that for all $i\ge 0, x_1x^i_2x_3x^i_4x_5y$ and $x_1x^i_2x_3x^i_4x_5z$ are in L;
+
+(4) there exist factorizations $x=x_1x_2x_3, y=y_1y_2y_3$ and$ z=z_1z_2z_3$, $|x_2|\ge 1$ and $|x_2x_3|\le C$, such that for all$ i\ge 0$, $x_1x^i_2x_3y_1y^i_2y_3$ and $x_1x^i_2x_3z_1z^i_2z_3$ are in L.
+
+Two applications of the Lemma are given:$ \{ a^ib^i \mid i\ge 0 \} \cup \{ a^ib^{2i} \mid i\ge 0 \}$ as well as$ \{ w\in\{a,b\}^* \mid w=uv, |u|=|v|, \mbox{ and } v \mbox{ contains an } a \}​$ are not DCFL. The proof uses the fact that each DCFL has an LR(1) grammar in Greibach normal form. 
+(source: https://cs.stackexchange.com/questions/10974/a-pumping-lemma-for-deterministic-context-free-languages)
 
 ## Ch.8 Turing Machine
 
